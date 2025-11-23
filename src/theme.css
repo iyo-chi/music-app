@@ -1,0 +1,206 @@
+:root {
+  /* ===== ヌメラ（色違い）っぽい：クリーム×薄紫 ===== */
+  --bg: #F7F0E3;         /* クリーム */
+  --card: #FFF9EE;       /* さらに薄いクリーム */
+  --text: #2B2420;       /* 濃いブラウンで必ず読める */
+  --muted: #6E635A;
+
+  /* 紫系アクセント（薄→中→濃） */
+  --lavender: #B7A3E6;        /* うす紫 */
+  --lavender-mid: #9C82DB;    /* ちょい濃い */
+  --lavender-dark: #7E63C8;   /* 濃い紫 */
+  --lavender-soft: #EDE5FB;   /* 紫の霧 */
+
+  --border: #E6D9C8;
+
+  /* カレンダー色 */
+  --good: #E6DDF8;
+  --bad:  #F5D6E2;
+  --none: #EFE6D6;
+
+  /* リセット赤 */
+  --danger: #D97A9C;
+  --danger-dark: #B85C7C;
+
+  /* フォントサイズ（全体ちょい小さめ） */
+  --font-base: 14px;
+  --font-small: 12px;
+  --font-large: 18px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: var(--font-base);
+}
+
+h1, h2, h3, h4, p, div, span, label {
+  color: var(--text);
+}
+
+#root { min-height: 100vh; }
+
+/* iPhone想定の幅固定（タブでガタつかない基礎） */
+.app-wrap {
+  padding: 16px;
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+}
+
+/* ===== カード ===== */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 12px;
+  margin-top: 10px;
+  box-shadow: 0 6px 16px rgba(43,36,32,0.06);
+  color: var(--text);
+}
+
+/* ===== 入力 ===== */
+input, select, textarea {
+  width: 100%;
+  font-size: var(--font-base);
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  outline: none;
+}
+input::placeholder { color: #A79A8F; }
+input:focus, select:focus, textarea:focus {
+  border-color: var(--lavender);
+  box-shadow: 0 0 0 3px rgba(183,163,230,0.20);
+}
+
+/* ===== タブ行（高さと中央揃えを完全固定） ===== */
+.tab-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  align-items: stretch; /* 全タブ同じ高さに */
+}
+
+.tab {
+  flex: 1;
+  min-width: 0;
+  height: 44px;                 /* ★ 高さ固定 */
+  padding: 0 6px;               /* 横だけ余白 */
+  display: flex;                /* ★ 文字を真ん中に */
+  align-items: center;          /* ★ 縦中央 */
+  justify-content: center;      /* ★ 横中央 */
+  background: var(--card);
+  color: var(--lavender-dark);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: var(--font-base);
+  font-weight: 800;
+  line-height: 1;               /* ★ ベースライン暴れ防止 */
+  white-space: nowrap;          /* ★ 改行させない */
+  overflow: hidden;             /* ★ はみ出し隠す */
+  text-overflow: ellipsis;      /* ★ 長い時は … */
+  cursor: pointer;
+}
+
+.tab-active {
+  background: var(--lavender);
+  color: #fff;
+  border-color: var(--lavender);
+  box-shadow: 0 6px 12px rgba(126,99,200,0.25);
+}
+
+/* ===== ボタン ===== */
+.btn {
+  background: var(--lavender);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-weight: 900;
+  font-size: var(--font-small);
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(126,99,200,0.25);
+  transition: transform 0.05s ease, background 0.15s ease;
+}
+.btn:hover { background: var(--lavender-dark); }
+.btn:active { transform: translateY(1px); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--lavender-dark);
+  border: 2px solid var(--lavender);
+  box-shadow: none;
+}
+.btn-ghost:hover { background: var(--lavender-soft); }
+
+.btn-danger {
+  background: var(--danger);
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(217,122,156,0.28);
+}
+.btn-danger:hover { background: var(--danger-dark); }
+
+/* 「本日分の記録をリセット」用：白地＋紫文字 */
+.btn-reset {
+  background: #fff;
+  color: var(--lavender-dark);
+  border: 2px solid var(--lavender);
+  box-shadow: none;
+}
+.btn-reset:hover { background: var(--lavender-soft); }
+
+/* ===== 成長バー ===== */
+.level-section { margin-top: 10px; }
+.level-label {
+  font-size: var(--font-base);
+  color: var(--text);
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+.progress-bar {
+  height: 10px;
+  background: #E9DECF;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.progress-fill {
+  height: 100%;
+  transition: width 0.25s ease;
+}
+.basic-fill { background: var(--lavender); }
+.vocal-fill { background: #C8B8F0; }
+.cond-fill  { background: var(--lavender-dark); }
+
+/* ===== カレンダー ===== */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+.calendar-day {
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 8px 0;
+  font-weight: 800;
+  font-size: var(--font-base);
+  cursor: pointer;
+}
+.day-good { background: var(--good); }
+.day-bad  { background: var(--bad); }
+.day-none { background: var(--none); }
+
+.note {
+  margin-top: 10px;
+  font-size: var(--font-small);
+  color: var(--muted);
+}
