@@ -1,24 +1,23 @@
 :root {
-  /* ===== ヌメラ（色違い）っぽい：クリーム×薄紫 ===== */
-  --bg: #F7F0E3;         /* クリーム */
-  --card: #FFF9EE;       /* さらに薄いクリーム */
-  --text: #2B2420;       /* 濃いブラウンで必ず読める */
-  --muted: #6E635A;
+  /* ===== ヌメラ（色違い）っぽい配色 ===== */
+  --bg: #F7F0E3;          /* クリームベース */
+  --card: #FFF9EE;        /* ちょい白寄りクリーム */
 
-  /* 紫系アクセント（薄→中→濃） */
-  --lavender: #B7A3E6;        /* うす紫 */
-  --lavender-mid: #9C82DB;    /* ちょい濃い */
-  --lavender-dark: #7E63C8;   /* 濃い紫 */
-  --lavender-soft: #EDE5FB;   /* 紫の霧 */
+  --text: #2B2420;        /* ちゃんと読める濃ブラウン */
+  --muted: #6E635A;       /* 薄めブラウン */
+
+  --lavender: #B7A3E6;     /* うす紫（アクセント基本） */
+  --lavender-dark: #7E63C8; /* 濃い紫 */
+  --lavender-soft: #EDE5FB; /* さらに薄い紫 */
 
   --border: #E6D9C8;
 
   /* カレンダー色 */
-  --good: #E6DDF8;
-  --bad:  #F5D6E2;
-  --none: #EFE6D6;
+  --good: #E6DDF8;        /* 達成（薄紫） */
+  --bad:  #F5D6E2;        /* 何かやったけど未達（薄ピンク紫） */
+  --none: #EFE6D6;        /* 何もなし（クリーム灰） */
 
-  /* リセット赤 */
+  /* リセット系 */
   --danger: #D97A9C;
   --danger-dark: #B85C7C;
 
@@ -28,7 +27,17 @@
   --font-large: 18px;
 }
 
-* { box-sizing: border-box; }
+/* ===== 全体リセット＆横スクロール対策 ===== */
+* {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
 
 body {
   margin: 0;
@@ -36,20 +45,58 @@ body {
   background: var(--bg);
   color: var(--text);
   font-size: var(--font-base);
+  line-height: 1.45;
 }
 
-h1, h2, h3, h4, p, div, span, label {
-  color: var(--text);
+/* iPhoneのセーフエリア対策（左右の謎余白防止） */
+#root {
+  min-height: 100vh;
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
-#root { min-height: 100vh; }
-
-/* iPhone想定の幅固定（タブでガタつかない基礎） */
+/* アプリ幅：iPhone基準で固定感 */
 .app-wrap {
   padding: 16px;
   width: 100%;
   max-width: 430px;
   margin: 0 auto;
+  overflow-x: hidden; /* 念のため */
+}
+
+/* ===== ヘッダー ===== */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-title {
+  font-size: 22px;
+  margin: 0;
+  color: var(--text);
+  font-weight: 900;
+}
+
+.app-streak {
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ユーティリティ */
+.row-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.label-muted {
+  font-size: var(--font-small);
+  color: var(--muted);
 }
 
 /* ===== カード ===== */
@@ -74,38 +121,41 @@ input, select, textarea {
   color: var(--text);
   outline: none;
 }
-input::placeholder { color: #A79A8F; }
+
+input::placeholder, textarea::placeholder {
+  color: #A79A8F;
+}
+
 input:focus, select:focus, textarea:focus {
   border-color: var(--lavender);
   box-shadow: 0 0 0 3px rgba(183,163,230,0.20);
 }
 
-/* ===== タブ行（高さと中央揃えを完全固定） ===== */
+/* ===== タブ ===== */
+/* 高さ＆中央揃えを完全固定 */
 .tab-row {
   display: flex;
   gap: 8px;
   margin-top: 12px;
-  align-items: stretch; /* 全タブ同じ高さに */
 }
 
 .tab {
   flex: 1;
   min-width: 0;
-  height: 44px;                 /* ★ 高さ固定 */
-  padding: 0 6px;               /* 横だけ余白 */
-  display: flex;                /* ★ 文字を真ん中に */
-  align-items: center;          /* ★ 縦中央 */
-  justify-content: center;      /* ★ 横中央 */
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   background: var(--card);
   color: var(--lavender-dark);
   border: 1px solid var(--border);
   border-radius: 12px;
-  font-size: var(--font-base);
+
+  font-size: 15px;
   font-weight: 800;
-  line-height: 1;               /* ★ ベースライン暴れ防止 */
-  white-space: nowrap;          /* ★ 改行させない */
-  overflow: hidden;             /* ★ はみ出し隠す */
-  text-overflow: ellipsis;      /* ★ 長い時は … */
+  white-space: nowrap;
+  text-align: center;
   cursor: pointer;
 }
 
@@ -122,59 +172,69 @@ input:focus, select:focus, textarea:focus {
   color: #fff;
   border: none;
   border-radius: 999px;
-  padding: 7px 12px;
+  padding: 8px 12px;
   font-weight: 900;
   font-size: var(--font-small);
   cursor: pointer;
   box-shadow: 0 6px 14px rgba(126,99,200,0.25);
   transition: transform 0.05s ease, background 0.15s ease;
+  white-space: nowrap;
 }
-.btn:hover { background: var(--lavender-dark); }
-.btn:active { transform: translateY(1px); }
 
+.btn:hover {
+  background: var(--lavender-dark);
+}
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* ゴーストボタン（白地×紫文字） */
 .btn-ghost {
   background: transparent;
   color: var(--lavender-dark);
   border: 2px solid var(--lavender);
   box-shadow: none;
 }
-.btn-ghost:hover { background: var(--lavender-soft); }
+.btn-ghost:hover {
+  background: var(--lavender-soft);
+}
 
+/* 危険系（赤） */
 .btn-danger {
   background: var(--danger);
   color: #fff;
   box-shadow: 0 6px 14px rgba(217,122,156,0.28);
 }
-.btn-danger:hover { background: var(--danger-dark); }
-
-/* 「本日分の記録をリセット」用：白地＋紫文字 */
-.btn-reset {
-  background: #fff;
-  color: var(--lavender-dark);
-  border: 2px solid var(--lavender);
-  box-shadow: none;
+.btn-danger:hover {
+  background: var(--danger-dark);
 }
-.btn-reset:hover { background: var(--lavender-soft); }
 
 /* ===== 成長バー ===== */
-.level-section { margin-top: 10px; }
+.level-section {
+  margin-top: 10px;
+}
+
 .level-label {
   font-size: var(--font-base);
   color: var(--text);
   margin-bottom: 6px;
-  font-weight: 700;
+  font-weight: 800;
 }
+
 .progress-bar {
   height: 10px;
-  background: #E9DECF;
+  background: #E9DECf;
   border-radius: 999px;
   overflow: hidden;
   border: 1px solid var(--border);
 }
+
 .progress-fill {
   height: 100%;
   transition: width 0.25s ease;
 }
+
+/* 紫の濃度違い3本 */
 .basic-fill { background: var(--lavender); }
 .vocal-fill { background: #C8B8F0; }
 .cond-fill  { background: var(--lavender-dark); }
@@ -185,6 +245,7 @@ input:focus, select:focus, textarea:focus {
   grid-template-columns: repeat(7, 1fr);
   gap: 6px;
 }
+
 .calendar-day {
   border: 1px solid var(--border);
   background: var(--card);
@@ -195,6 +256,7 @@ input:focus, select:focus, textarea:focus {
   font-size: var(--font-base);
   cursor: pointer;
 }
+
 .day-good { background: var(--good); }
 .day-bad  { background: var(--bad); }
 .day-none { background: var(--none); }
@@ -203,4 +265,11 @@ input:focus, select:focus, textarea:focus {
   margin-top: 10px;
   font-size: var(--font-small);
   color: var(--muted);
+}
+
+/* ===== iPhoneでの余白/ガタつき最終保険 ===== */
+img, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
